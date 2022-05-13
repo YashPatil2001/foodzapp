@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/product")
+@CrossOrigin(origins = "*")
 public class ProductController {
 
     @Autowired
@@ -21,6 +22,7 @@ public class ProductController {
         return productService.addProduct(product);
     }
 
+    @ResponseBody
     @GetMapping("/allProducts")
     public List<Product> getAllProducts(){
         return  productService.getAllProducts();

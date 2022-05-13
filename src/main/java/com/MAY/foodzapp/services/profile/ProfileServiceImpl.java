@@ -56,7 +56,7 @@ public class ProfileServiceImpl implements ProfileService {
 
         // TODO: 09-05-2022 add to and mail
        String validationCode = UUID.randomUUID().toString();
-
+        System.out.println("creating validation code : " + validationCode);
        //sneding mail
        emailSender.sendMail(profile.getEmail(), buildEmail(profile.getFirstName(),validationCode));
 
@@ -73,26 +73,35 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public ResultFlags validateCode(String code) {
         Optional<AccountValidationNumber>  validationCode = accountValidation.getValidationByValidationCode(code);
+        System.out.println("validating validation code : " + code);
         if(validationCode.isPresent() &&  validationCode.get().getExpiredAt() != LocalDateTime.now()){
             return SUCCESS;
         }
-        return FAILURE;
+        Long profileId = validationCode.get().getUser().getProfileId();
+        accountValidation.deleteById(validationCode.get().getId());
+        profileRepository.deleteById(profileId);
+        throw new IllegalStateException("invalid token");
     }
 
     @Override
-    public ResultFlags loginUser(LoginUserModel user) {
+    public Long loginUser(LoginUserModel user) {
+
+        System.out.println("in loginUser");
         Optional<Profile> profile = profileRepository.findByEmail(user.getEmail());
         if(!profile.isPresent()){
-            return FAILURE;
+            throw new IllegalStateException("Email not exist");
         }
+        System.out.println("profile : " + profile.isPresent());
 
         System.out.println("dbpass : " +profile.get().getPassword());
         System.out.println("userpass : " +passwordEncoder.encode(user.getPassword()));
-        if(!passwordEncoder.matches(user.getPassword(),profile.get().getPassword())){
-            return FAILURE;
+        System.out.println("results :  " + passwordEncoder.matches(user.getPassword(),profile.get().getPassword()));
+        if(!passwordEncoder.matches(user.getPassword(),profile.get().getPassword())) {
+            throw new IllegalStateException("incorrect password");
         }
-
-        return SUCCESS;
+        long id = profile.get().getProfileId();
+        System.out.println("id : " + profile.get().getProfileId());
+        return profile.get().getProfileId();
     }
 
     private String buildEmail(String name, String code) {

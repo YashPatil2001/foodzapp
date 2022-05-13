@@ -8,8 +8,11 @@ import com.MAY.foodzapp.utils.ResultFlags;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
 @RequestMapping("/auth")
+//@CrossOrigin(origins = "http://127.0.0.1:5502")
+@CrossOrigin(origins = "*")
 public class AuthenticationController {
 
     @Autowired
@@ -21,6 +24,7 @@ public class AuthenticationController {
         return "<h1> Welcome to Auth route of FoodsApp</h1>";
     }
 
+//    @CrossOrigin(origins = "http://127.0.0.1:5502")
     @PostMapping("/signup")
     private ResultFlags singUpUser(@RequestBody Profile profile){
         return profileService.createUser(profile);
@@ -32,8 +36,10 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    private ResultFlags loginUser(@RequestBody LoginUserModel user){
+    private Long loginUser(@RequestBody LoginUserModel user){
         System.out.println("user : " + user);
-        return  profileService.loginUser(user);
+        System.out.println("yes yres i can");
+        return profileService.loginUser(user);
+//        return 10232L;
     }
 }

@@ -10,5 +10,5 @@ public interface ProfileService {
 
     ResultFlags validateCode(String code);
 
-    ResultFlags loginUser(LoginUserModel user);
+    Long loginUser(LoginUserModel user);
 }

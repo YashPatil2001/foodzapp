@@ -66,7 +66,7 @@ class ProfileRepositoryTest {
         System.out.println(profileList);
     }
 
-    @Test
+//    @Test
     public void deleteAllUserTest(){
         profileRepository.deleteAll();
     }

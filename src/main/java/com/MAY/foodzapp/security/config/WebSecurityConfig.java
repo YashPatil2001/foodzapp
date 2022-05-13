@@ -30,6 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf()
                 .disable();
+//        http.cors().and();
         // TODO: 09-05-2022 security configuration pending
     }
 
