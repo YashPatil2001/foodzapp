@@ -42,6 +42,7 @@ public class OrderServiceImpl implements OrderService{
                 .totalPrice(order.getTotalPrice())
                 .build();
 
+
         order.setOrderDate(LocalDateTime.now());
 
         Order placedOrder = orderRepository.save(orderDB);
