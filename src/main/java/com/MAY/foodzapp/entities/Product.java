@@ -39,8 +39,5 @@ public class Product {
     private String description;
 
 
-    @OneToOne(
-            mappedBy = "product"
-    )
-    private Order order;
+
 }

@@ -4,7 +4,9 @@ package com.MAY.foodzapp.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -44,14 +46,8 @@ public class Order{
     private Profile profile;
 
 
-    @OneToOne(
-            cascade = CascadeType.ALL
-    )
-    @JoinColumn(
-            name = "product_id",
-            referencedColumnName = "productId"
-    )
-    private Product product;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<Product> orderedProducts;
 
 
 }
